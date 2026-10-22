@@ -27,7 +27,7 @@ Get **Aftertaste 0.1.0 — public preview** from [GitHub Releases](https://githu
 | macOS, Apple silicon | `Aftertaste-0.1.0-mac-arm64.zip` |
 | macOS, Intel | `Aftertaste-0.1.0-mac-x64.zip` |
 | Windows, x64 | `Aftertaste-0.1.0-win-x64.exe` (portable) |
-| Linux, x64 | `Aftertaste-0.1.0-linux-x64.AppImage` |
+| Linux, x64 | `Aftertaste-0.1.0-linux-x86_64.AppImage` |
 
 The preview is unsigned and macOS builds are not notarized. Your system may show an unidentified-publisher warning or block first launch. See [installation notes](docs/GETTING_STARTED.md). SHA-256 checksums accompany the release.
 

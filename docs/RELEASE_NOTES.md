@@ -11,7 +11,7 @@ Connect through the documented **Continue with ChatGPT** flow. No separate API k
 - **macOS Apple silicon:** `Aftertaste-0.1.0-mac-arm64.zip`
 - **macOS Intel:** `Aftertaste-0.1.0-mac-x64.zip`
 - **Windows x64:** `Aftertaste-0.1.0-win-x64.exe` (portable)
-- **Linux x64:** `Aftertaste-0.1.0-linux-x64.AppImage`
+- **Linux x64:** `Aftertaste-0.1.0-linux-x86_64.AppImage`
 
 Check `SHA256SUMS.txt` before opening a download. The preview is unsigned and macOS builds are not notarized; your OS may show an unidentified-publisher warning or block first launch. See the installation guide in the repository.
 
