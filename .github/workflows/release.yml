@@ -1,0 +1,63 @@
+name: Build desktop release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            command: dist:mac
+            artifacts: release/*.zip
+            label: mac
+          - os: windows-latest
+            command: dist:win
+            artifacts: release/*.exe
+            label: win
+          - os: ubuntu-latest
+            command: dist:linux
+            artifacts: release/*.AppImage
+            label: linux
+    runs-on: ${{ matrix.os }}
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run check
+      - run: npm run ${{ matrix.command }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aftertaste-${{ matrix.label }}
+          path: ${{ matrix.artifacts }}
+          if-no-files-found: error
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - name: Create checksums
+        working-directory: artifacts
+        run: sha256sum Aftertaste-* > SHA256SUMS.txt
+      - name: Publish public preview
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: gh release create "$RELEASE_TAG" artifacts/* --title "Aftertaste ${RELEASE_TAG#v} — public preview" --notes-file docs/RELEASE_NOTES.md --prerelease --verify-tag

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https: data:; font-src 'self'; media-src 'self' blob:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <title>Aftertaste</title>
+  <link rel="stylesheet" href="app.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <button class="brand" data-action="library" aria-label="Aftertaste home"><span class="brand-icon">a</span> aftertaste<span class="brand-star">✦</span></button>
+    <nav aria-label="Main menu"><button class="nav-button active" data-action="library"><small>01</small> Library</button><button class="nav-button" data-action="for-you"><small>02</small> For you</button></nav>
+    <div class="top-actions"><span class="local-light">LOCAL SAVE</span><button class="quiet-button" data-action="settings" aria-label="Your context and settings">Settings</button><button class="button compact" data-action="add">＋ Add a story</button></div>
+  </header>
+  <main>
+    <section class="hero">
+      <img src="assets/midnight-library.webp" alt="An anime reader in a lamplit room overlooking the sea at night" width="1942" height="809">
+      <div class="hero-copy"><p class="pixel eyebrow">A LITTLE SPACE OF YOUR OWN</p><h1>Stories that<br><span>stay with you.</span></h1><p>Books, games, films.<br>And what you found in them.</p><div class="hero-bottom"><span>✦</span> YOUR SHELF. YOUR PACE.</div></div>
+      <span class="hero-corner pixel">MEMORY CARD / 01</span>
+    </section>
+    <div id="content" aria-live="polite"><p class="loading">Opening your library…</p></div>
+  </main>
+  <footer><span class="pixel">FOR WHAT STAYS WITH YOU.</span><span id="footer-status">Aftertaste · public preview</span></footer>
+  <dialog id="modal"><div id="modal-body"></div></dialog>
+  <div id="toast" role="status" hidden></div>
+</body>
+</html>

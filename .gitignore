@@ -1,0 +1,15 @@
+node_modules/
+release/
+site-dist/
+.openai/
+.env*
+*.log
+.DS_Store
+test-results/
+coverage/
+*.pem
+*.key
+credentials*
+library.json
+accounts.json
+host.json

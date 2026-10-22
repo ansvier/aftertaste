@@ -1,0 +1,40 @@
+{
+  "name": "aftertaste",
+  "productName": "Aftertaste",
+  "version": "0.1.0",
+  "description": "A quiet, local library for stories and the thoughts they leave behind.",
+  "author": "Aftertaste contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/ansvier/aftertaste",
+  "repository": { "type": "git", "url": "https://github.com/ansvier/aftertaste.git" },
+  "main": "src/main.cjs",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test tests/*.test.cjs",
+    "check": "node scripts/check-release.cjs",
+    "dist": "electron-builder --publish never",
+    "dist:mac": "electron-builder --mac zip --arm64 --x64 --publish never",
+    "dist:win": "electron-builder --win portable --x64 --publish never",
+    "dist:linux": "electron-builder --linux AppImage --x64 --publish never",
+    "site": "node scripts/build-site.cjs"
+  },
+  "devDependencies": { "electron": "45.0.0", "electron-builder": "26.15.3" },
+  "build": {
+    "appId": "io.github.ansvier.aftertaste",
+    "asar": true,
+    "icon": "renderer/assets/icon.png",
+    "directories": { "output": "release" },
+    "files": ["src/**", "renderer/**", "package.json", "LICENSE", "THIRD_PARTY_NOTICES.md"],
+    "artifactName": "Aftertaste-${version}-${os}-${arch}.${ext}",
+    "mac": {
+      "category": "public.app-category.books",
+      "identity": null,
+      "target": ["zip"],
+      "extendInfo": { "NSMicrophoneUsageDescription": "Record a voice impression to keep with a story in your local library." }
+    },
+    "win": { "target": ["portable"], "signAndEditExecutable": false },
+    "linux": { "target": ["AppImage"], "category": "Education" },
+    "publish": null
+  }
+}
