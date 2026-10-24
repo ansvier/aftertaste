@@ -1,4 +1,25 @@
-# Release validation — 0.1.0 public preview
+# Release validation — 0.3.0 public preview
+
+## 0.3.0 changes
+
+Automated checks cover translation key and interpolation parity, UI string coverage, local note search, local keyword tags, full media backup copies, one snapshot per version change, rejection of unsafe snapshot inputs, preservation of existing libraries on first account connection, and context export re-import. Existing OAuth, stream, account isolation, catalog grounding and local chat bridge checks remain in the suite.
+
+On macOS Apple silicon, an isolated development library with no ChatGPT account was opened. English, Russian and French interfaces were checked. A manual item and written note were saved; note text search returned the exact note excerpt, and local topic tags appeared. A portable backup was saved through the native file dialog, then restored through the normal replacement screen. The item and note remained available, and a pre-restore recovery snapshot was created. Russian copy uses the direct action-oriented vocabulary approved for this release.
+
+These checks use synthetic library content. No personal library data is included in source or release artifacts. Platform build results come from the release workflow; a successful cross-platform build does not establish manual runtime verification on another operating system.
+
+The following records describe earlier manual checks of the same OAuth and local chat flows. The 0.3.0 changes do not add another authentication mechanism or developer API key.
+
+
+## 0.2.0 source build: local chat connection
+
+The source build adds opt-in local chat access; it is not part of the 0.1.0 downloads. Automated tests cover local credential checks, socket permissions, disable / reconnect, shelf pinning, stale revision rejection, preservation of existing stories / impressions / imports, idempotent context updates, context budget rejection, pre-update snapshots, persistent selection receipts, restart without repeated inference, and stdio MCP discovery / calls. These run alongside the original OAuth, catalog, import and storage tests.
+
+On macOS Apple silicon, the packaged 0.2.0 app replaced an installed 0.1.0 app. The original library was unchanged by installation. A real stdio MCP session read the paired shelf, merged one chosen context document without a file picker, retried that exact update without duplication, and started one recommendation through the existing ChatGPT connection. The job completed and the app displayed two catalog-backed books with evidence from both new and previously chosen context. Previous sources and library impressions were preserved. No API key or remote bridge was used. The private source website was not modified.
+
+The bundled ASAR and standalone client were checked for accidental runtime databases and personal files. Manual bridge testing was on macOS only; Windows / Linux runtime behavior is not established by this check.
+
+The remainder of this document records the original 0.1.0 release validation.
 
 ## Automated checks
 

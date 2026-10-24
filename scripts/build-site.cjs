@@ -4,5 +4,7 @@ const root = path.resolve(__dirname, '..');
 const dest = path.join(root, 'site-dist');
 fs.rmSync(dest, { recursive: true, force: true });
 fs.cpSync(path.join(root, 'site'), dest, { recursive: true });
+fs.copyFileSync(path.join(root, 'renderer', 'i18n.js'), path.join(dest, 'i18n.js'));
+fs.cpSync(path.join(root, 'renderer', 'locales'), path.join(dest, 'locales'), { recursive: true });
 fs.cpSync(path.join(root, 'renderer', 'assets'), path.join(dest, 'assets'), { recursive: true, filter: src => !src.endsWith('icon.svg') });
 process.stdout.write('Built the static download website in site-dist/.\n');

@@ -5,9 +5,14 @@
 - `src/main.cjs`: isolated desktop bridge, local file access, lifecycle and permissions.
 - `src/auth.cjs`: documented open-source SIWC flow, identity verification, encrypted sessions and token renewal.
 - `src/storage.cjs`: atomic local writes and per-registration shelves.
+- `src/backups.cjs`: version-change snapshots, recovery copies, portable exports and first-connection library continuity.
+- `renderer/i18n.js` and `renderer/locales/`: English, Russian and French text; local keyword tag rules.
+- `renderer/library-tools.js`: local note search, excerpts and automatic topic tags.
 - `src/import.cjs`: local, reviewable text and ChatGPT JSON extraction.
 - `src/catalog.cjs`: public catalogs, with no model or catalog API key.
 - `src/inference.cjs`: complete SSE handling, bounded evidence, catalog discovery, grounded selection.
+- `src/chat-bridge.cjs`: opt-in, account-pinned local socket / pipe, scoped context merges, backups and selection receipts.
+- `agent/aftertaste.cjs`: dependency-free stdio MCP and command-line client, also packaged outside the ASAR for local assistants.
 - `renderer/`: English-only desktop interface and bundled assets; no Node access or remote scripts.
 - `site/`: static English download website. `npm run site` produces `site-dist/`.
 

@@ -28,6 +28,7 @@ test('discovery searches live catalogs and saves only grounded, retrieved candid
   const fetcher = async (url, options) => {
     if (String(url).includes('/v1/responses')) {
       turns++;
+      const request = JSON.parse(options.body); assert.match(request.instructions, /in French/);
       const result = turns === 1 ? { summary: 'Atmospheric fiction for enjoyment.', titles: ['A synthetic catalog title'], queries: [] } : { intro: 'A quiet next story.', picks: [
         { candidateId: 'candidate-0', reason: 'It fits the atmospheric reading request.', experience: 'A curious imagined world.', caveat: 'Slowly paced.', evidenceIds: ['source:chosen'] },
         { candidateId: 'invented-id', reason: 'Not a real candidate.', evidenceIds: ['source:chosen'] }
@@ -38,7 +39,7 @@ test('discovery searches live catalogs and saves only grounded, retrieved candid
     if (String(url).includes('openlibrary.org')) return Response.json({ docs: [{ key: '/works/OL_SYNTHETIC', title: 'A synthetic catalog title', author_name: ['Synthetic author'] }] });
     return Response.json({ items: [] });
   };
-  const result = await recommend({ data, accessToken: 'synthetic', model: 'test', fetcher });
+  const result = await recommend({ data, accessToken: 'synthetic', model: 'test', language: 'fr', fetcher });
   assert.equal(turns, 2); assert.equal(result.picks.length, 1); assert.equal(result.picks[0].title, 'A synthetic catalog title');
   assert.equal(result.picks[0].evidence[0].id, 'source:chosen');
   assert.ok(catalogQueries.length); assert.equal(catalogQueries.some(q => q.includes('atmospheric')), false);

@@ -22,3 +22,5 @@ Official references:
 - [Models and inference](https://developers.openai.com/siwc/token-sharing-open-source/models-and-inference)
 - [Preview limitations](https://developers.openai.com/siwc/token-sharing-open-source/preview-limitations)
 - [Usage UI guidance](https://developers.openai.com/siwc/ui-ux-guidelines)
+
+The interface uses the first eligible model from the account catalog by default. Recommendation explanations use the current interface language (English, Russian or French). Catalog titles and author names remain unchanged. The library is fully usable without this connection; automatic topic tags and search run locally.

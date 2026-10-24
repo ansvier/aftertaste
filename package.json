@@ -1,7 +1,7 @@
 {
   "name": "aftertaste",
   "productName": "Aftertaste",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "A quiet, local library for stories and the thoughts they leave behind.",
   "author": "Aftertaste contributors",
   "license": "MIT",
@@ -26,12 +26,13 @@
     "icon": "renderer/assets/icon.png",
     "directories": { "output": "release" },
     "files": ["src/**", "renderer/**", "package.json", "LICENSE", "THIRD_PARTY_NOTICES.md"],
+    "extraResources": [{ "from": "agent/aftertaste.cjs", "to": "aftertaste-agent.cjs" }],
     "artifactName": "Aftertaste-${version}-${os}-${arch}.${ext}",
     "mac": {
       "category": "public.app-category.books",
       "identity": null,
       "target": ["zip"],
-      "extendInfo": { "NSMicrophoneUsageDescription": "Record a voice impression to keep with a story in your local library." }
+      "extendInfo": { "CFBundleLocalizations": ["en", "ru", "fr"], "NSMicrophoneUsageDescription": "Record a voice impression to keep with a story in your local library." }
     },
     "win": { "target": ["portable"], "signAndEditExecutable": false },
     "linux": { "target": ["AppImage"], "category": "Education" },

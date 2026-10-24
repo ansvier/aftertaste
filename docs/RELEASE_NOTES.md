@@ -1,28 +1,30 @@
-# Aftertaste 0.1.0 — public preview
+# Aftertaste 0.3.0 — public preview
 
-A quiet local library for stories and the thoughts they leave behind.
+A local library for books, videos, games and your notes. No account required.
 
-Search books, manga and games, collect covers, and keep written or voice impressions. Import chosen ChatGPT conversations or text documents, then ask for a few personal recommendations directly inside the app. Recommendations discover candidates from public catalogs instead of a predefined list.
-
-Connect through the documented **Continue with ChatGPT** flow. No separate API key is needed. Eligible requests use your ChatGPT plan and its limits; account / workspace availability varies. Signing in does not grant access to ChatGPT history. All imports are chosen locally and recommendations run only when requested.
+- **English, Russian and French:** switch with flags in the header. Language choices persist; new recommendation explanations use the selected language.
+- **Search notes directly:** search titles, authors, note text and tags, then open a matching note from its excerpt.
+- **Local automatic tags:** topics are detected from explicit keywords in titles, descriptions and written notes. No AI account or background upload is needed. Custom tags remain available.
+- **Backups:** download and restore complete backups with notes, context, covers and audio. A local recovery snapshot is created before app updates, restores and deletions. Credentials are excluded.
+- **Simpler settings:** optional ChatGPT connection, context import / export, and backups. Detailed source controls and local chat access are tucked into expandable sections.
+- **Account-free library:** catalog search, manual entries, notes, audio, search, tags and backups work without ChatGPT. The first connection copies an existing offline library without removing the original.
+- **Local chat updates:** an opt-in, account-pinned local connection lets a trusted assistant read enabled context, merge selected chat documents and request recommendations. No manual file exchange, remote proxy or API key.
 
 ## Downloads
 
-- **macOS Apple silicon:** `Aftertaste-0.1.0-mac-arm64.zip`
-- **macOS Intel:** `Aftertaste-0.1.0-mac-x64.zip`
-- **Windows x64:** `Aftertaste-0.1.0-win-x64.exe` (portable)
-- **Linux x64:** `Aftertaste-0.1.0-linux-x86_64.AppImage`
+- macOS Apple silicon: `Aftertaste-0.3.0-mac-arm64.zip`
+- macOS Intel: `Aftertaste-0.3.0-mac-x64.zip`
+- Windows x64 portable: `Aftertaste-0.3.0-win-x64.exe`
+- Linux x64: `Aftertaste-0.3.0-linux-x86_64.AppImage`
 
-Check `SHA256SUMS.txt` before opening a download. The preview is unsigned and macOS builds are not notarized; your OS may show an unidentified-publisher warning or block first launch. See the installation guide in the repository.
+Verify `SHA256SUMS.txt`. The preview is unsigned and macOS builds are not notarized. Your OS may warn or block first launch. Follow its supported security flow; do not disable system protections.
 
-## What stays local
+## Upgrade safely
 
-Your library, notes, recordings, chosen sources, and generated recommendations are saved on your computer. OAuth tokens are encrypted using the system credential store and excluded from exports. Each registration has its own shelf. The app ships with an empty library and no personal data.
+Download a backup from the old app, quit it and replace the application. App data lives outside the app bundle. Version 0.3.0 also makes a local library-and-media snapshot on its first launch after a version change. Recover a snapshot through **Settings → Backup → Restore backup** by selecting its `library.json`; adjacent media is restored too.
 
-Selected text context goes directly to OpenAI when you request recommendations. Catalog searches and remote cover images use their respective providers. There is no Aftertaste cloud account, telemetry, background import, or sync.
+## Data and availability
 
-## Preview limitations
+The app ships with an empty library. No personal data is included. Selected text context goes directly to OpenAI only for requested AI recommendations. Eligible requests use your ChatGPT plan and limits; availability varies. Catalogs receive search terms, and remote covers load from their providers. There is no automatic collection, cloud sync or telemetry.
 
-English-only interface and documentation. Imports support ChatGPT `conversations.json`, text / Markdown, and Aftertaste backups. Audio recordings are local playback only; no transcription. No cloud sync, mobile build, or automatic updater. Catalog coverage and covers vary. A real account must authorize ChatGPT access interactively; protocol tests do not establish availability for every account.
-
-Read `docs/RELEASE_VALIDATION.md` for the checks actually performed. Report bugs in English, using synthetic examples and removing all private data.
+Automatic topic tags have limited keyword coverage. Audio is local playback only, without transcription. PDF / DOCX imports, a mobile app and an automatic updater are not included. See `docs/RELEASE_VALIDATION.md` for the checks actually completed.

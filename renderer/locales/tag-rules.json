@@ -1,0 +1,135 @@
+[
+  {
+    "id": "fiction",
+    "words": [
+      "fiction",
+      "novel",
+      "roman",
+      "роман",
+      "художествен"
+    ]
+  },
+  {
+    "id": "fantasy",
+    "words": [
+      "fantasy",
+      "fantastique",
+      "magie",
+      "wizard",
+      "dragon",
+      "фэнтези",
+      "волшеб",
+      "магия",
+      "дракон"
+    ]
+  },
+  {
+    "id": "scifi",
+    "words": [
+      "science.fiction",
+      "sci.fi",
+      "space",
+      "cosmos",
+      "robot",
+      "космос",
+      "фантастик",
+      "робот"
+    ]
+  },
+  {
+    "id": "history",
+    "words": [
+      "history",
+      "histoire",
+      "historique",
+      "истори",
+      "историч"
+    ]
+  },
+  {
+    "id": "philosophy",
+    "words": [
+      "philosoph",
+      "ethics",
+      "ethique",
+      "философ",
+      "этика"
+    ]
+  },
+  {
+    "id": "technology",
+    "words": [
+      "technolog",
+      "software",
+      "programming",
+      "coding",
+      "logiciel",
+      "informatique",
+      "технолог",
+      "программ",
+      "разработк"
+    ]
+  },
+  {
+    "id": "science",
+    "words": [
+      "science",
+      "research",
+      "scientifi",
+      "recherche",
+      "наука",
+      "науч",
+      "исследован"
+    ]
+  },
+  {
+    "id": "art",
+    "words": [
+      "art(?:s|work)?(?:$|[^a-z])",
+      "design",
+      "painting",
+      "dessin",
+      "peinture",
+      "дизайн",
+      "искусств",
+      "живопис"
+    ]
+  },
+  {
+    "id": "business",
+    "words": [
+      "business",
+      "startup",
+      "management",
+      "entreprise",
+      "travail",
+      "бизнес",
+      "стартап",
+      "управлен",
+      "работа"
+    ]
+  },
+  {
+    "id": "travel",
+    "words": [
+      "travel",
+      "voyage",
+      "journey",
+      "путешеств",
+      "поездк"
+    ]
+  },
+  {
+    "id": "society",
+    "words": [
+      "societ",
+      "community",
+      "politic",
+      "communaute",
+      "societe",
+      "сообществ",
+      "обществ",
+      "политик"
+    ]
+  }
+]

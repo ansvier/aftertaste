@@ -9,6 +9,7 @@ function parseImport(name, contents) {
   if (/\.json$/i.test(name)) {
     let data;
     try { data = JSON.parse(contents); } catch { throw new Error('This JSON file could not be read.'); }
+    if (data?.application === 'aftertaste-context' && data.version === 1 && Array.isArray(data.sources)) return data.sources.slice(0, 5000).map(s => source(s.title, s.body, s.kind === 'chat' ? 'chat' : 'document')).filter(s => s.body);
     if (!Array.isArray(data)) throw new Error('Choose conversations.json from your ChatGPT export, or a text / Markdown file.');
     return data.slice(0, 5000).filter(c => c && typeof c.mapping === 'object').map(c => {
       const mapping = c.mapping;
