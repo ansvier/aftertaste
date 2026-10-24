@@ -39,5 +39,14 @@
       return /^[a-zA-Z0-9_-]{11}$/.test(id) ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '';
     } catch { return ''; }
   }
-  return { normalize, configure, autoTags, search, excerpt, videoThumbnail };
+  function catalogCoverURL(value) {
+    try {
+      const u = new URL(value);
+      if (u.protocol !== 'https:' || u.username || u.password || u.port || u.href.length > 1500) return '';
+      if (u.hostname === 'covers.openlibrary.org' && /^\/b\/(?:id\/[1-9]\d*|isbn\/[\dXx-]+|olid\/OL\d+M)-(?:S|M|L)\.jpg$/.test(u.pathname)) return u.href;
+      if (['books.google.com', 'books.googleusercontent.com'].includes(u.hostname) && u.pathname.startsWith('/books/')) return u.href;
+    } catch {}
+    return '';
+  }
+  return { normalize, configure, autoTags, search, excerpt, videoThumbnail, catalogCoverURL };
 });

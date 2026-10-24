@@ -1,6 +1,6 @@
 # Getting started
 
-Download the file for your OS from [the release page](https://github.com/ansvier/aftertaste/releases/tag/v0.3.2). Compare its SHA-256 checksum with `SHA256SUMS.txt` before opening it.
+Download the file for your OS from [the release page](https://github.com/ansvier/aftertaste/releases/tag/v0.3.3). Compare its SHA-256 checksum with `SHA256SUMS.txt` before opening it.
 
 ## Install and update
 
@@ -49,3 +49,7 @@ Use **Settings → Context → Import context / Export context**. Context export
 Choose a language from the flag dropdown in the header. Every shelf cover uses the same frame; videos have a play badge, and YouTube links load a preview when available. You can still upload a cover or supply an HTTPS image URL in the item details.
 
 Book search accepts translated titles and author names. English, Russian and French interfaces do not restrict Google Books to English editions. If regular catalogs return no matches, public Wikidata identifiers can resolve an alternate title or author to actual Open Library records. Coverage depends on those catalogs; displayed covers and descriptions may come from another language or edition. A service outage or request limit is reported separately from a completed search with no matches.
+
+In **My notes**, choose **Edit** beside a saved note, change its text and select **Save changes**. Cancel leaves the original unchanged. Editing a voice note changes its written caption while preserving the recording.
+
+Catalog book covers are fetched by the desktop app and cached locally. If an Open Library image is unavailable, other covers of that same work are tried. Adding a catalog item saves the available cover alongside the book, so it works offline and is included in portable backups. Existing remote covers can also load through the local cache. A cover may belong to another edition or language; unavailable images keep a placeholder.

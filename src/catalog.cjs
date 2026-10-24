@@ -24,7 +24,7 @@ function unique(items) {
 }
 function bookFromWork(work, creator, title = work.title) {
   if (!/^\/works\/OL\d+W$/.test(work.key || '') || !work.title || !title) return null;
-  const cover = work.covers?.find(id => Number.isInteger(id) && id > 0);
+  const cover = (work.covers || []).filter(id => Number.isInteger(id) && id > 0).sort((a, b) => b - a)[0];
   return { externalId: `ol:${work.key}`, type: 'book', title: text(title, 300), creator: text(creator, 300), year: String(work.first_publish_date || '').match(/\d{4}/)?.[0] || '',
     cover: cover ? `https://covers.openlibrary.org/b/id/${cover}-L.jpg` : '', sourceUrl: `https://openlibrary.org${work.key}`, description: clean(work.description?.value || work.description || ''), tags: (work.subjects || []).slice(0, 12).map(clean) };
 }
@@ -115,4 +115,20 @@ async function search(type, query, fetcher = fetch, language = 'en') {
   if ([...settled, ...fallback].some(r => r.status === 'rejected')) throw new Error('Book catalogs are temporarily unavailable. Please try again later.', { cause: fallback[0].reason || settled.find(r => r.status === 'rejected')?.reason });
   return [];
 }
-module.exports = { search, unique };
+async function coverAlternatives(sourceUrl, fetcher = fetch) {
+  let key;
+  try {
+    const url = new URL(sourceUrl);
+    if (url.origin !== 'https://openlibrary.org' || url.username || url.password) return [];
+    key = url.pathname.match(/^\/works\/(OL\d+W)(?:\/[^/]+)?$/)?.[1];
+  } catch { return []; }
+  if (!key) return [];
+  const work = await libraryRecord(`/works/${key}`, fetcher);
+  if (!/^\/works\/OL\d+W$/.test(work.key || '')) return [];
+  const valid = ids => [...new Set(ids.filter(id => Number.isInteger(id) && id > 0))].sort((a, b) => b - a);
+  const ids = valid(work.covers || []);
+  const editions = ids.length < 4 ? await json(`https://openlibrary.org${work.key}/editions.json?limit=8`, fetcher).catch(() => ({ entries: [] })) : { entries: [] };
+  const editionIds = valid((editions.entries || []).flatMap(edition => edition.covers || []));
+  return [...new Set([...ids, ...editionIds])].slice(0, 4).map(id => `https://covers.openlibrary.org/b/id/${id}-L.jpg?default=false`);
+}
+module.exports = { search, unique, coverAlternatives };

@@ -6,7 +6,7 @@ A local desktop library for books, manga, games, videos and your notes. Search c
 
 ![Aftertaste: an anime reader by a window overlooking the sea at night](renderer/assets/midnight-library.webp)
 
-[Download](https://github.com/ansvier/aftertaste/releases/tag/v0.3.2) · [Getting started](docs/GETTING_STARTED.md) · [Privacy](docs/PRIVACY.md) · [Optional ChatGPT connection](docs/CHATGPT.md)
+[Download](https://github.com/ansvier/aftertaste/releases/tag/v0.3.3) · [Getting started](docs/GETTING_STARTED.md) · [Privacy](docs/PRIVACY.md) · [Optional ChatGPT connection](docs/CHATGPT.md)
 
 ![Aftertaste example library with books, a video and a written note](site/assets/library-demo-en.png)
 
@@ -33,14 +33,14 @@ The first ChatGPT connection copies an existing offline library into the new acc
 
 ## Download
 
-Get **Aftertaste 0.3.2 — public preview** from [GitHub Releases](https://github.com/ansvier/aftertaste/releases/tag/v0.3.2).
+Get **Aftertaste 0.3.3 — public preview** from [GitHub Releases](https://github.com/ansvier/aftertaste/releases/tag/v0.3.3).
 
 | System | Download |
 | --- | --- |
-| macOS, Apple silicon | `Aftertaste-0.3.2-mac-arm64.zip` |
-| macOS, Intel | `Aftertaste-0.3.2-mac-x64.zip` |
-| Windows, x64 | `Aftertaste-0.3.2-win-x64.exe` (portable) |
-| Linux, x64 | `Aftertaste-0.3.2-linux-x86_64.AppImage` |
+| macOS, Apple silicon | `Aftertaste-0.3.3-mac-arm64.zip` |
+| macOS, Intel | `Aftertaste-0.3.3-mac-x64.zip` |
+| Windows, x64 | `Aftertaste-0.3.3-win-x64.exe` (portable) |
+| Linux, x64 | `Aftertaste-0.3.3-linux-x86_64.AppImage` |
 
 The preview is unsigned and macOS builds are not notarized. Your system may warn or block first launch. See [installation notes](docs/GETTING_STARTED.md). SHA-256 checksums accompany the release. Updates are manual; application data is kept separately from the app bundle.
 

@@ -11,3 +11,5 @@ h1{font-family:Golos,system-ui,sans-serif;font-size:44px;font-weight:650;line-he
 
 /* Video previews share the same frame as book covers. */
 .video-cover{background:#111917}.video-cover .cover-image{object-fit:contain;background:#111917}.video-cover .cover-fallback{padding:50px 16px 70px;justify-content:center}.video-cover .cover-fallback small,.video-cover .cover-fallback>span{display:none}.video-badge{position:absolute;top:9px;left:9px;padding:3px 7px;background:#09110ee8;border:1px solid #718065;color:#f4dfae;font:500 10px/1.5 Golos,system-ui,sans-serif;border-radius:3px}.video-play{position:absolute;bottom:14px;left:calc(50% - 18px);width:36px;height:36px;display:grid;place-content:center;padding-left:2px;border:1px solid #d5d6b2aa;border-radius:50%;background:#0b1611de;color:#f4dfae;font-size:14px;pointer-events:none}
+
+.note-actions{display:flex;gap:18px;align-items:center}.note-top{gap:16px;flex-wrap:wrap}#edit-note-text{min-height:180px}

@@ -269,8 +269,14 @@
   "site.step1Title": "Add something",
   "site.step1Body": "Click Add to find a book, manga or game. For a video or article, paste a link. Add a cover if you want.",
   "site.step2Title": "Leave yourself a note",
-  "site.step2Body": "Open My notes after a chapter, a video or a finished book. Write a few lines or record a voice note.",
+  "site.step2Body": "Open My notes after a chapter, a video or a finished book. Write a few lines or record a voice note. You can edit saved notes later.",
   "site.step3Title": "Come back to it",
   "site.step3Body": "Search your notes, mark your progress and back up your library. Connect ChatGPT whenever you want personal recommendations.",
-  "error.catalogUnavailable": "Book catalogs are temporarily unavailable or have reached their request limit. Try again later. This does not mean the book is missing."
+  "error.catalogUnavailable": "Book catalogs are temporarily unavailable or have reached their request limit. Try again later. This does not mean the book is missing.",
+  "notes.edit": "Edit",
+  "notes.editTitle": "Edit note",
+  "notes.saveChanges": "Save changes",
+  "notes.edited": "Edited",
+  "notes.keepAudio": "Your audio recording is kept.",
+  "error.noteChanged": "This note changed or was removed. Close the editor and open your notes again."
 }

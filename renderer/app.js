@@ -19,7 +19,7 @@ function translatedError(message) {
   if (I.language === 'en') return message;
   const cases = [
     [/catalog.*unavailable/i, 'error.catalogUnavailable'],
-    [/usage limit|rate.limit|429/i, 'error.usage'], [/sign.in|session|401|permission.*plan|plan usage|403/i, 'error.signin'],
+    [/This note changed|note no longer exists/i, 'error.noteChanged'], [/usage limit|rate.limit|429/i, 'error.usage'], [/sign.in|session|401|permission.*plan|plan usage|403/i, 'error.signin'],
     [/context changed|library changed/i, 'error.changed'], [/cancelled/i, 'error.cancelled'], [/already in your library/i, 'error.duplicate'],
     [/title first/i, 'error.title'], [/Leave a thought/i, 'error.note'], [/HTTPS/i, 'error.link'], [/image up to|audio up to/i, 'error.asset'],
     [/Import up to/i, 'error.tooMany'], [/at least one/i, 'error.select'], [/context is full/i, 'error.contextFull'],
@@ -33,7 +33,9 @@ function error(message) { const el = $('#dialog-error'); if (el) el.textContent 
 function fail(e) { error(translatedError(e.message)); }
 function asset(name) { return /^[a-f0-9-]{36}\.(png|jpg|webp|webm|ogg|mp3|m4a|wav)$/.test(name || '') ? `aftertaste://app/local-assets/${name}` : ''; }
 function cover(item) {
-  const src = asset(item.coverAsset) || safeURL(item.cover) || L.videoThumbnail(item);
+  const remote = safeURL(item.cover);
+  const preview = L.catalogCoverURL(remote) ? `aftertaste://app/catalog-cover?${new URLSearchParams({ url: remote, source: safeURL(item.sourceUrl) })}` : remote;
+  const src = asset(item.coverAsset) || preview || L.videoThumbnail(item);
   const video = item.type === 'video';
   return `<span class="cover${video ? ' video-cover' : ''}"><span class="cover-fallback" aria-hidden="true"><small>${tx(`type.${item.type || 'book'}`)}</small><strong>${esc(item.title)}</strong><span>✦</span></span>${src ? `<img class="cover-image" src="${esc(src)}" alt="${tx('library.cover', { title: item.title })}" loading="lazy" referrerpolicy="no-referrer">` : ''}${video ? `<span class="video-badge">▶ ${tx('type.video')}</span><span class="video-play" aria-hidden="true">▶</span>` : ''}</span>`;
 }
@@ -93,8 +95,8 @@ function storyForm(item = {}) {
   $('#story-form [name="type"]').addEventListener('change', e => { const prefix = ['book','manga'].includes(e.target.value) ? '' : 'generic.'; for (const opt of $('#story-form [name="status"]').options) opt.textContent = t(`status.${prefix}${opt.value}`); });
   $('#cover-file').addEventListener('change', async e => { const file = e.target.files[0]; if (!file) return; try { coverAsset = (await api('asset', { bytes: new Uint8Array(await file.arrayBuffer()), mime: file.type })).name; $('#cover-feedback').textContent = t('form.ready'); } catch (e) { fail(e); } });
   $('#story-form').addEventListener('submit', async e => {
-    e.preventDefault(); e.submitter.disabled = true; const values = Object.fromEntries(new FormData(e.target));
-    try { if ((values.sourceUrl && !safeURL(values.sourceUrl)) || (values.cover && !safeURL(values.cover))) return error(t('error.link')); await api('saveStory', { ...item, ...values, coverAsset, tags: values.tags.split(',').map(s => s.trim()).filter(Boolean) }); closeModal(); await refresh(); toast(t('library.saved')); }
+    e.preventDefault(); e.submitter.disabled = true; const form = e.target, values = Object.fromEntries(new FormData(form));
+    try { if ((values.sourceUrl && !safeURL(values.sourceUrl)) || (values.cover && !safeURL(values.cover))) return error(t('error.link')); await api('saveStory', { ...item, ...values, coverAsset, tags: values.tags.split(',').map(s => s.trim()).filter(Boolean) }); if ($('#story-form') === form) closeModal(); await refresh(); toast(t('library.saved')); }
     catch (e) { fail(e); } finally { if (e.submitter) e.submitter.disabled = false; }
   });
 }
@@ -102,7 +104,7 @@ function stopRecording() { if (recorder?.state === 'recording') recorder.stop();
 function cleanAudio() { stopRecording(); if (audioURL) URL.revokeObjectURL(audioURL); audioURL = ''; audioBlob = null; }
 function thoughtsDialog(id, noteId) {
   const item = current.library.materials.find(m => m.id === id); if (!item) return; cleanAudio();
-  modal(t('notes.title'), `<p class="muted">${esc(item.title)}${item.creator ? ` · ${esc(item.creator)}` : ''}</p><form id="note-form"><label class="field"><span>${tx('notes.label')}</span><textarea id="note-text" maxlength="50000" placeholder="${tx('notes.placeholder')}" autofocus></textarea></label><div class="inline-actions"><button class="quiet-button" id="record" type="button">${tx('notes.record')}</button><label class="quiet-button">${tx('notes.attach')}<input id="audio-file" type="file" accept="audio/*" hidden></label></div><p id="audio-status" class="small muted"></p><audio id="audio-preview" class="audio-preview" controls hidden></audio><p class="small muted">${tx('notes.audioInfo')}</p><div class="form-end"><button class="button" type="submit">${tx('notes.save')}</button></div></form><div>${(item.notes || []).map(n => `<article class="note ${n.id === noteId ? 'matched-note' : ''}" id="note-${esc(n.id)}"><div class="note-top"><time>${esc(date(n.createdAt))}</time><button class="quiet-button danger" data-delete-note="${esc(n.id)}" data-parent="${esc(id)}">${tx('remove')}</button></div>${n.text ? `<p>${esc(n.text)}</p>` : ''}${n.audioAsset ? `<audio controls src="${esc(asset(n.audioAsset))}"></audio>` : ''}</article>`).join('')}</div>`, cleanAudio);
+  modal(t('notes.title'), `<p class="muted">${esc(item.title)}${item.creator ? ` · ${esc(item.creator)}` : ''}</p><form id="note-form"><label class="field"><span>${tx('notes.label')}</span><textarea id="note-text" maxlength="50000" placeholder="${tx('notes.placeholder')}" autofocus></textarea></label><div class="inline-actions"><button class="quiet-button" id="record" type="button">${tx('notes.record')}</button><label class="quiet-button">${tx('notes.attach')}<input id="audio-file" type="file" accept="audio/*" hidden></label></div><p id="audio-status" class="small muted"></p><audio id="audio-preview" class="audio-preview" controls hidden></audio><p class="small muted">${tx('notes.audioInfo')}</p><div class="form-end"><button class="button" type="submit">${tx('notes.save')}</button></div></form><div>${(item.notes || []).map(n => `<article class="note ${n.id === noteId ? 'matched-note' : ''}" id="note-${esc(n.id)}"><div class="note-top"><time>${esc(date(n.createdAt))}${n.updatedAt ? ` · ${tx('notes.edited')}` : ''}</time><div class="note-actions"><button class="quiet-button" data-edit-note="${esc(n.id)}" data-parent="${esc(id)}">${tx('notes.edit')}</button><button class="quiet-button danger" data-delete-note="${esc(n.id)}" data-parent="${esc(id)}">${tx('remove')}</button></div></div>${n.text ? `<p>${esc(n.text)}</p>` : ''}${n.audioAsset ? `<audio controls src="${esc(asset(n.audioAsset))}"></audio>` : ''}</article>`).join('')}</div>`, cleanAudio);
   if (noteId) document.getElementById(`note-${noteId}`)?.scrollIntoView({ block: 'nearest' });
   const showAudio = () => { if (audioURL) URL.revokeObjectURL(audioURL); audioURL = URL.createObjectURL(audioBlob); if ($('#audio-preview')) { $('#audio-preview').src = audioURL; $('#audio-preview').hidden = false; $('#audio-status').textContent = t('notes.ready'); } };
   $('#record').addEventListener('click', async () => {
@@ -120,6 +122,17 @@ function thoughtsDialog(id, noteId) {
   $('#note-form').addEventListener('submit', async e => {
     e.preventDefault(); if (recorder?.state === 'recording') return error(t('notes.stopFirst')); e.submitter.disabled = true;
     try { await api('addNote', { storyId: id, text: $('#note-text').value, audio: audioBlob ? { bytes: new Uint8Array(await audioBlob.arrayBuffer()), mime: audioBlob.type } : null }); await refresh(); thoughtsDialog(id); toast(t('notes.saved')); }
+    catch (e) { fail(e); } finally { if (e.submitter) e.submitter.disabled = false; }
+  });
+}
+function editNoteDialog(storyId, noteId) {
+  const item = current.library.materials.find(m => m.id === storyId), note = item?.notes?.find(n => n.id === noteId);
+  if (!note) return;
+  cleanAudio();
+  modal(t('notes.editTitle'), `<p class="muted">${esc(item.title)}</p><form id="edit-note-form"><label class="field"><span>${tx('notes.label')}</span><textarea id="edit-note-text" maxlength="50000" autofocus>${esc(note.text || '')}</textarea></label>${note.audioAsset ? `<audio class="audio-preview" controls src="${esc(asset(note.audioAsset))}"></audio><p class="small muted">${tx('notes.keepAudio')}</p>` : ''}<div class="form-end"><button class="quiet-button" type="button" data-story="${esc(storyId)}">${tx('cancel')}</button><button class="button" type="submit">${tx('notes.saveChanges')}</button></div></form>`);
+  $('#edit-note-form').addEventListener('submit', async e => {
+    e.preventDefault(); e.submitter.disabled = true; const form = e.target;
+    try { await api('editNote', { storyId, id: noteId, text: $('#edit-note-text').value, expectedText: note.text || '' }); await refresh(); if ($('#edit-note-form') === form) thoughtsDialog(storyId, noteId); toast(t('notes.saved')); }
     catch (e) { fail(e); } finally { if (e.submitter) e.submitter.disabled = false; }
   });
 }
@@ -179,6 +192,7 @@ document.addEventListener('click', async e => {
     if (d.savePick !== undefined) { await api('saveStory', current.library.recommendations[Number(d.savePick)]); await refresh(); return toast(t('library.saved')); }
     if (d.dismiss) { await api('dismiss', { id: d.dismiss }); return await refresh(); }
     if (d.deleteStory) { if (!confirm(t('library.deleteConfirm'))) return; await api('deleteStory', { id: d.deleteStory }); closeModal(); await refresh(); return toast(t('library.deleted')); }
+    if (d.editNote) return editNoteDialog(d.parent, d.editNote);
     if (d.deleteNote) { if (!confirm(t('notes.deleteConfirm'))) return; await api('deleteNote', { storyId: d.parent, id: d.deleteNote }); await refresh(); return thoughtsDialog(d.parent); }
     const action = d.action;
     if (action === 'library' || action === 'for-you') { section = action; render(); }

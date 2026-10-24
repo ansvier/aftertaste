@@ -11,6 +11,9 @@ const { AuthManager } = require('./auth.cjs');
 const { search } = require('./catalog.cjs');
 const { models, recommend } = require('./inference.cjs');
 const { ChatBridge } = require('./chat-bridge.cjs');
+const { editNote } = require('./notes.cjs');
+const { CoverCache } = require('./covers.cjs');
+const { catalogCoverURL } = require('../renderer/library-tools.js');
 
 app.setName('Aftertaste');
 if (!app.isPackaged && process.env.AFTERTASTE_TEST_DATA_DIR) app.setPath('userData', path.resolve(process.env.AFTERTASTE_TEST_DATA_DIR));
@@ -19,6 +22,7 @@ const gotLock = app.requestSingleInstanceLock();
 if (!gotLock) { app.quit(); } else {
   let window, auth, store, bridge, job, preferences = { language: 'en' }, messages = {}, imports = [], importedBackup = null;
   const root = path.join(app.getPath('userData'), 'private');
+  const covers = new CoverCache(root);
   const renderer = path.join(__dirname, '..', 'renderer');
   const t = key => messages[key] || key;
   async function language(value) {
@@ -57,7 +61,7 @@ if (!gotLock) { app.quit(); } else {
       if (typeof base64 !== 'string') throw new Error('Invalid backup asset.');
       renamed[name] = await store.saveAsset(key, Buffer.from(base64, 'base64'), mime(name));
     }
-    const materials = data.materials.map(m => ({ ...material(m), id: randomUUID(), coverAsset: renamed[m.coverAsset] || '', notes: (Array.isArray(m.notes) ? m.notes : []).slice(0, 5000).map(n => ({ id: randomUUID(), text: text(n.text, 50000), audioAsset: renamed[n.audioAsset] || '', createdAt: text(n.createdAt, 50) || new Date().toISOString() })).filter(n => n.text || n.audioAsset) }));
+    const materials = data.materials.map(m => ({ ...material(m), id: randomUUID(), coverAsset: renamed[m.coverAsset] || '', notes: (Array.isArray(m.notes) ? m.notes : []).slice(0, 5000).map(n => ({ id: randomUUID(), text: text(n.text, 50000), audioAsset: renamed[n.audioAsset] || '', createdAt: text(n.createdAt, 50) || new Date().toISOString(), ...(text(n.updatedAt, 50) ? { updatedAt: text(n.updatedAt, 50) } : {}) })).filter(n => n.text || n.audioAsset) }));
     const sources = data.sources.map(s => ({ id: randomUUID(), title: text(s.title, 200), body: text(s.body, 160000), chatBridgeKey: /^[a-zA-Z0-9_-]{1,100}$/.test(s.chatBridgeKey || '') ? s.chatBridgeKey : undefined, kind: s.kind === 'chat' ? 'chat' : 'document', enabled: s.enabled !== false, importedAt: new Date().toISOString() })).filter(s => s.body);
     return store.update(key, target => { Object.assign(target, { materials, sources, recommendations: [], dismissed: [], contextSummary: '', recommendationIntro: '', generatedAt: null, recommendationsStale: false, chatBridgeUpdates: [], chatBridgeLastUpdate: null }); });
   }
@@ -68,8 +72,14 @@ if (!gotLock) { app.quit(); } else {
     openBackups: async () => { const folder = path.join(root, 'backups'); await fs.mkdir(folder, { recursive: true, mode: 0o700 }); await shell.openPath(folder); return true; },
     search: p => search(p?.type || 'book', p?.query, fetch, preferences.language),
     saveStory: async p => {
-      assertIdle(); const entry = material(p);
-      return store.update(auth.libraryKey(), data => {
+      assertIdle(); const entry = material(p), key = auth.libraryKey();
+      if (!entry.coverAsset && catalogCoverURL(entry.cover)) {
+        let image; try { image = await covers.get(entry.cover, entry.sourceUrl); } catch {}
+        assertIdle(); if (key !== auth.libraryKey()) throw new Error('Your library changed. Open it again before saving.');
+        if (image) entry.coverAsset = await store.saveAsset(key, image.bytes, image.mime);
+      }
+      return store.update(key, data => {
+        assertIdle(); if (key !== auth.libraryKey()) throw new Error('Your library changed. Open it again before saving.');
         const old = data.materials.find(m => m.id === entry.id);
         if (!old && data.materials.some(m => m.type === entry.type && m.title.toLowerCase() === entry.title.toLowerCase() && m.creator.toLowerCase() === entry.creator.toLowerCase())) throw new Error('This story is already in your library.');
         if (old) Object.assign(old, entry, { addedAt: old.addedAt }); else data.materials.unshift({ ...entry, notes: [] });
@@ -84,6 +94,7 @@ if (!gotLock) { app.quit(); } else {
       if (!note.text && !note.audioAsset) throw new Error('Leave a thought or record a voice impression.');
       return store.update(key, d => d.materials.find(m => m.id === p.storyId).notes.unshift(note));
     },
+    editNote: p => { assertIdle(); return editNote(store, auth.libraryKey(), p); },
     deleteNote: async p => { assertIdle(); const key = auth.libraryKey(); await snapshotLibraries(root, { version: app.getVersion(), reason: 'before-delete', keys: [key] }); return store.update(key, data => { const story = data.materials.find(m => m.id === p?.storyId); if (story) story.notes = story.notes.filter(n => n.id !== p?.id); }); },
     asset: async p => { assertIdle(); return { name: await store.saveAsset(auth.libraryKey(), new Uint8Array(p?.bytes), p?.mime) }; },
     importPreview: async p => {
@@ -188,6 +199,10 @@ if (!gotLock) { app.quit(); } else {
         const url = new URL(request.url);
         if (url.hostname !== 'app' || request.method !== 'GET') return new Response('Not found', { status: 404 });
         const pathname = decodeURIComponent(url.pathname);
+        if (pathname === '/catalog-cover') {
+          const image = await covers.get(url.searchParams.get('url'), url.searchParams.get('source'));
+          return new Response(image.bytes, { headers: { 'Content-Type': image.mime, 'Cache-Control': 'private, max-age=86400', 'X-Content-Type-Options': 'nosniff' } });
+        }
         if (pathname.startsWith('/local-assets/')) {
           const name = pathname.slice('/local-assets/'.length);
           return new Response(await store.asset(auth.libraryKey(), name), { headers: { 'Content-Type': mime(name), 'Cache-Control': 'no-store' } });

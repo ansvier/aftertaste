@@ -44,3 +44,9 @@ Full portable backups include referenced media. Local recovery snapshots copy al
 On the first ChatGPT connection, an existing offline library is copied locally into the new empty account library, including media. Its original remains. Existing account libraries are never replaced. Signing out keeps the saved account library accessible.
 
 YouTube previews are direct image requests, with no embedded player, script or video playback. If an image fails to load, a local placeholder remains. Uploaded or manually chosen covers take priority. The public website uses a screenshot of a separate demonstration library with example notes; it contains no user library data.
+
+## Edited notes and cached covers
+
+Editing a note updates its text on your computer. Its ID, creation date and audio attachment are preserved. The last-edit timestamp is saved; existing recommendations are marked as needing a refresh and are not regenerated automatically. Restoring a backup also preserves the edit timestamp.
+
+Open Library and Google Books covers are downloaded through the desktop app from approved image endpoints, with HTTPS verification, a size limit and no account credentials. Open Library may redirect images to its public Internet Archive cover storage. If a cover fails, the app can request public work / edition metadata and try another cover of the same work. The cache is private to the OS user, limited to 128 images / 96 MB and contains image bytes rather than library notes or ChatGPT credentials. Adding an item copies an available cached cover to that library’s media folder; that saved copy is included in portable backups. Previously saved remote covers can display from the cache without changing their notes or context.

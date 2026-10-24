@@ -1,4 +1,13 @@
-# Release validation — 0.3.2 public preview
+# Release validation — 0.3.3 public preview
+
+## 0.3.3 changes
+
+The suite contains 39 automated tests. New checks exercise persisted note edits, stale-edit rejection, account separation, unchanged note IDs / creation dates / audio attachments / context, search after editing, empty-note validation and portable backups. Cover checks exercise shared downloads, offline cache reads, saved media in a portable backup, actual-work fallback, untrusted destination rejection, invalid content, size limits and rate-limit backoff.
+
+A live check reproduced a failed archived image URL for the reported novel. The cover loader retrieved a different actual cover of the same Open Library work and cached its JPEG without changing TLS or OS security settings. This validates that example, not every public cover provider.
+
+On macOS Apple silicon, an isolated library with synthetic text and audio notes was opened. Cancel preserved the complete library, and saving an edit retained the original note ID, creation date and audio file. A different note stayed unchanged. The previously unavailable cover appeared in the app, was saved into library media and was included alongside audio in a portable backup.
+
 
 ## 0.3.2 changes
 

@@ -269,8 +269,14 @@
   "site.step1Title": "Ajoutez une œuvre",
   "site.step1Body": "Cliquez sur Ajouter pour chercher un livre, un manga ou un jeu. Pour une vidéo ou un article, collez un lien. Ajoutez une couverture si vous le souhaitez.",
   "site.step2Title": "Prenez une note",
-  "site.step2Body": "Après un chapitre, une vidéo ou un livre, ouvrez Mes notes. Écrivez quelques lignes ou enregistrez une note vocale.",
+  "site.step2Body": "Après un chapitre, une vidéo ou un livre, ouvrez Mes notes. Écrivez quelques lignes ou enregistrez une note vocale. Vous pourrez modifier vos notes ensuite.",
   "site.step3Title": "Retrouvez vos idées",
   "site.step3Body": "Recherchez dans vos notes, suivez vos lectures et sauvegardez votre bibliothèque. Connectez ChatGPT pour obtenir des recommandations personnalisées.",
-  "error.catalogUnavailable": "Les catalogues sont temporairement indisponibles ou ont atteint leur limite de requêtes. Réessayez plus tard. Cela ne signifie pas que le livre est absent."
+  "error.catalogUnavailable": "Les catalogues sont temporairement indisponibles ou ont atteint leur limite de requêtes. Réessayez plus tard. Cela ne signifie pas que le livre est absent.",
+  "notes.edit": "Modifier",
+  "notes.editTitle": "Modifier la note",
+  "notes.saveChanges": "Enregistrer les modifications",
+  "notes.edited": "Modifiée",
+  "notes.keepAudio": "Votre enregistrement audio est conservé.",
+  "error.noteChanged": "Cette note a été modifiée ou supprimée. Fermez l’éditeur et rouvrez vos notes."
 }
