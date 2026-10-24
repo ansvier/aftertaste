@@ -271,5 +271,6 @@
   "site.step2Title": "Leave yourself a note",
   "site.step2Body": "Open My notes after a chapter, a video or a finished book. Write a few lines or record a voice note.",
   "site.step3Title": "Come back to it",
-  "site.step3Body": "Search your notes, mark your progress and back up your library. Connect ChatGPT whenever you want personal recommendations."
+  "site.step3Body": "Search your notes, mark your progress and back up your library. Connect ChatGPT whenever you want personal recommendations.",
+  "error.catalogUnavailable": "Book catalogs are temporarily unavailable or have reached their request limit. Try again later. This does not mean the book is missing."
 }

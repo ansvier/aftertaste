@@ -271,5 +271,6 @@
   "site.step2Title": "Prenez une note",
   "site.step2Body": "Après un chapitre, une vidéo ou un livre, ouvrez Mes notes. Écrivez quelques lignes ou enregistrez une note vocale.",
   "site.step3Title": "Retrouvez vos idées",
-  "site.step3Body": "Recherchez dans vos notes, suivez vos lectures et sauvegardez votre bibliothèque. Connectez ChatGPT pour obtenir des recommandations personnalisées."
+  "site.step3Body": "Recherchez dans vos notes, suivez vos lectures et sauvegardez votre bibliothèque. Connectez ChatGPT pour obtenir des recommandations personnalisées.",
+  "error.catalogUnavailable": "Les catalogues sont temporairement indisponibles ou ont atteint leur limite de requêtes. Réessayez plus tard. Cela ne signifie pas que le livre est absent."
 }

@@ -70,7 +70,7 @@ async function recommend({ data, accessToken, model, query = '', format = 'book'
   // Bounded sequential searches respect public catalog rate limits; personal context is never sent to catalogs.
   for (const q of queries) {
     signal?.throwIfAborted();
-    try { found.push(...(await search(format, q, fetcher)).slice(0, 8)); } catch (e) { if (signal?.aborted) throw e; }
+    try { found.push(...(await search(format, q, fetcher, language)).slice(0, 8)); } catch (e) { if (signal?.aborted) throw e; }
     await new Promise(r => setTimeout(r, 250));
   }
   const normalize = s => String(s).toLowerCase().replace(/[^\p{L}\p{N}]/gu, '');

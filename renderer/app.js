@@ -18,6 +18,7 @@ async function api(action, payload) {
 function translatedError(message) {
   if (I.language === 'en') return message;
   const cases = [
+    [/catalog.*unavailable/i, 'error.catalogUnavailable'],
     [/usage limit|rate.limit|429/i, 'error.usage'], [/sign.in|session|401|permission.*plan|plan usage|403/i, 'error.signin'],
     [/context changed|library changed/i, 'error.changed'], [/cancelled/i, 'error.cancelled'], [/already in your library/i, 'error.duplicate'],
     [/title first/i, 'error.title'], [/Leave a thought/i, 'error.note'], [/HTTPS/i, 'error.link'], [/image up to|audio up to/i, 'error.asset'],

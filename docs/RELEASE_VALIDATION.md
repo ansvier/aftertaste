@@ -1,4 +1,11 @@
-# Release validation — 0.3.1 public preview
+# Release validation — 0.3.2 public preview
+
+## 0.3.2 changes
+
+Seven new automated catalog checks cover language preferences without an English-only filter, translated-title resolution during a Google Books rate limit, merged work identifiers, translated author lookup, empty-versus-unavailable results, cooldown behavior, equivalent-record deduplication, and rejection of unsafe identifiers / redirect loops. The full suite contains 31 tests.
+
+Live public-catalog checks reproduced the original failure: Open Library returned zero direct matches for the reported Russian title, while Google Books returned HTTP 429. The new lookup resolved that title through Wikidata and loaded the canonical William Golding work and its cover from Open Library. Additional Russian and French queries returned catalog results. In an isolated macOS library, the exact reported query returned the novel, its author, publication year and canonical catalog link in the normal Add dialog. Selecting the result and saving it created the correct book entry. A separate transient service failure displayed the new availability message instead of a false empty result. These are external-service checks, not guarantees of catalog availability or metadata accuracy.
+
 
 ## 0.3.1 changes
 

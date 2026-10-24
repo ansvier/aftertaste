@@ -1,6 +1,6 @@
 # Getting started
 
-Download the file for your OS from [the release page](https://github.com/ansvier/aftertaste/releases/tag/v0.3.1). Compare its SHA-256 checksum with `SHA256SUMS.txt` before opening it.
+Download the file for your OS from [the release page](https://github.com/ansvier/aftertaste/releases/tag/v0.3.2). Compare its SHA-256 checksum with `SHA256SUMS.txt` before opening it.
 
 ## Install and update
 
@@ -47,3 +47,5 @@ The automatic update snapshot is on the same computer. Download a separate backu
 Use **Settings → Context → Import context / Export context**. Context exports can be imported without replacing the library. Full backups include context as well. Importing context is local; it is sent to OpenAI only when you explicitly request recommendations.
 
 Choose a language from the flag dropdown in the header. Every shelf cover uses the same frame; videos have a play badge, and YouTube links load a preview when available. You can still upload a cover or supply an HTTPS image URL in the item details.
+
+Book search accepts translated titles and author names. English, Russian and French interfaces do not restrict Google Books to English editions. If regular catalogs return no matches, public Wikidata identifiers can resolve an alternate title or author to actual Open Library records. Coverage depends on those catalogs; displayed covers and descriptions may come from another language or edition. A service outage or request limit is reported separately from a completed search with no matches.

@@ -13,3 +13,7 @@ OpenAI, ChatGPT, and other product names are trademarks of their owners. Their m
 ## Demonstration screenshot
 
 The download page and README show an English demonstration library containing public catalog cover thumbnails and a YouTube thumbnail. The screenshot uses synthetic notes and no personal library data. Book-cover and video imagery remains the property of its respective rights holders; the project MIT license does not relicense that imagery. Metadata and remote image links were retrieved from Open Library and YouTube image hosting.
+
+## Translated book metadata
+
+Book search uses public Wikidata labels and Open Library identifiers to resolve translated titles and author names when needed. Wikidata structured data is available under CC0. Open Library supplies the actual book records and covers; its catalog and cover policies apply. This does not imply endorsement by either project.

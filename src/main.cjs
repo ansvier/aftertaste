@@ -66,7 +66,7 @@ if (!gotLock) { app.quit(); } else {
     preferences: async p => { await language(p?.language); await atomicWrite(path.join(root, 'preferences.json'), JSON.stringify(preferences)); notify(); return preferences; },
     exportContext: () => exportLibrary(true),
     openBackups: async () => { const folder = path.join(root, 'backups'); await fs.mkdir(folder, { recursive: true, mode: 0o700 }); await shell.openPath(folder); return true; },
-    search: p => search(p?.type || 'book', p?.query),
+    search: p => search(p?.type || 'book', p?.query, fetch, preferences.language),
     saveStory: async p => {
       assertIdle(); const entry = material(p);
       return store.update(auth.libraryKey(), data => {

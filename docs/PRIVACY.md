@@ -15,7 +15,7 @@ The library itself is **not encrypted by Aftertaste**. Other software running wi
 | Sign in / refresh / sign out | OpenAI authentication | OAuth registration and session data |
 | Find available models | OpenAI | OAuth-authenticated account request |
 | Request recommendations | OpenAI Responses API | Enabled imported text, library titles / status, written impressions, optional request, and retrieved catalog candidates |
-| Search / discover catalog items | Open Library, Google Books, MangaDex, Steam | Search terms such as titles, creators, or subjects; no raw personal context |
+| Search / discover catalog items | Open Library, Google Books, MangaDex, Steam; Wikidata for translated book / author names | Search terms such as titles, creators, or subjects and public catalog identifiers; no raw personal context |
 | Display a remote cover or video preview | The cover provider; YouTube image hosting for recognized YouTube links | Image URL (including the video ID for YouTube) and ordinary network metadata such as IP address |
 | Open a source link | Your system browser | The selected URL |
 
