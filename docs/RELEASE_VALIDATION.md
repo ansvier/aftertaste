@@ -1,4 +1,11 @@
-# Release validation — 0.3.0 public preview
+# Release validation — 0.3.1 public preview
+
+## 0.3.1 changes
+
+The suite has 24 automated tests. New coverage checks supported YouTube link forms, exact allowed hosts, HTTPS, video-ID validation, malformed links, and non-video entries. Existing authentication, local bridge, library isolation, backup, local search and translation checks remain in place.
+
+On macOS Apple silicon, a separate development library containing public book metadata and synthetic notes was opened. The native language dropdown switched among English, Russian and French; English persisted across restarts. Book images, a YouTube thumbnail and a video with an unavailable image were displayed in equal cover frames. A long video title stayed inside its frame. No personal library content or credentials were used in the English screenshot published on the download page.
+
 
 ## 0.3.0 changes
 

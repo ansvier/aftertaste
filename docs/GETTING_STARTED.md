@@ -1,6 +1,6 @@
 # Getting started
 
-Download the file for your OS from [the release page](https://github.com/ansvier/aftertaste/releases/tag/v0.3.0). Compare its SHA-256 checksum with `SHA256SUMS.txt` before opening it.
+Download the file for your OS from [the release page](https://github.com/ansvier/aftertaste/releases/tag/v0.3.1). Compare its SHA-256 checksum with `SHA256SUMS.txt` before opening it.
 
 ## Install and update
 
@@ -45,3 +45,5 @@ The automatic update snapshot is on the same computer. Download a separate backu
 ## Import or export just context
 
 Use **Settings → Context → Import context / Export context**. Context exports can be imported without replacing the library. Full backups include context as well. Importing context is local; it is sent to OpenAI only when you explicitly request recommendations.
+
+Choose a language from the flag dropdown in the header. Every shelf cover uses the same frame; videos have a play badge, and YouTube links load a preview when available. You can still upload a cover or supply an HTTPS image URL in the item details.

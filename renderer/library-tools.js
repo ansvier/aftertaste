@@ -25,5 +25,19 @@
     const at = first ? normalize(text).indexOf(first) : 0, start = Math.max(0, at - 60);
     return `${start ? '…' : ''}${text.slice(start, start + max)}${text.length > start + max ? '…' : ''}`;
   }
-  return { normalize, configure, autoTags, search, excerpt };
+  function videoThumbnail(item) {
+    if (item.type !== 'video') return '';
+    try {
+      const url = new URL(item.sourceUrl);
+      if (url.protocol !== 'https:' || url.username || url.password || url.port) return '';
+      let id = '';
+      if (['youtu.be', 'www.youtu.be'].includes(url.hostname)) id = url.pathname.slice(1);
+      else if (['youtube.com', 'www.youtube.com', 'm.youtube.com', 'music.youtube.com', 'youtube-nocookie.com', 'www.youtube-nocookie.com'].includes(url.hostname)) {
+        if (url.pathname === '/watch') id = url.searchParams.get('v') || '';
+        else id = url.pathname.match(/^\/(?:shorts|embed|live)\/([^/]+)\/?$/)?.[1] || '';
+      }
+      return /^[a-zA-Z0-9_-]{11}$/.test(id) ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : '';
+    } catch { return ''; }
+  }
+  return { normalize, configure, autoTags, search, excerpt, videoThumbnail };
 });

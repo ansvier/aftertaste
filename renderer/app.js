@@ -32,9 +32,12 @@ function error(message) { const el = $('#dialog-error'); if (el) el.textContent 
 function fail(e) { error(translatedError(e.message)); }
 function asset(name) { return /^[a-f0-9-]{36}\.(png|jpg|webp|webm|ogg|mp3|m4a|wav)$/.test(name || '') ? `aftertaste://app/local-assets/${name}` : ''; }
 function cover(item) {
-  const src = asset(item.coverAsset) || safeURL(item.cover);
-  return src ? `<img class="cover" src="${esc(src)}" alt="${tx('library.cover', { title: item.title })}" loading="lazy" referrerpolicy="no-referrer">` : `<div class="cover cover-fallback"><small>${tx(`type.${item.type || 'book'}`)}</small><strong>${esc(item.title)}</strong><span>✦</span></div>`;
+  const src = asset(item.coverAsset) || safeURL(item.cover) || L.videoThumbnail(item);
+  const video = item.type === 'video';
+  return `<span class="cover${video ? ' video-cover' : ''}"><span class="cover-fallback" aria-hidden="true"><small>${tx(`type.${item.type || 'book'}`)}</small><strong>${esc(item.title)}</strong><span>✦</span></span>${src ? `<img class="cover-image" src="${esc(src)}" alt="${tx('library.cover', { title: item.title })}" loading="lazy" referrerpolicy="no-referrer">` : ''}${video ? `<span class="video-badge">▶ ${tx('type.video')}</span><span class="video-play" aria-hidden="true">▶</span>` : ''}</span>`;
 }
+// Keep the fixed frame and its fallback when a remote image is unavailable.
+document.addEventListener('error', e => { if (e.target.matches?.('img.cover-image')) e.target.remove(); }, true);
 function modal(title, html, cleanup) {
   if ($('#modal').open) { $('#modal').close(); modalCleanup?.(); }
   modalCleanup = cleanup;
@@ -60,7 +63,6 @@ function renderLibrary() {
   ${result.notes.length ? `<section class="note-results"><h2>${tx('search.notes', { count: result.notes.length })}</h2>${result.notes.slice(0, noteLimit).map(({ item, note }) => `<button class="note-result" data-story="${esc(item.id)}" data-note="${esc(note.id)}"><strong>${esc(item.title)}</strong><span>${esc(L.excerpt(note.text, find))}</span><small>${tx('search.open')} →</small></button>`).join('')}${result.notes.length > noteLimit ? `<button class="quiet-button" data-action="more-notes">${tx('search.more')}</button>` : ''}</section>` : ''}
   ${!items.length ? `<div class="empty-library"><div class="empty-cover" aria-hidden="true"><b>＋</b></div><div class="empty-copy"><h2>${tx(materials.length ? 'search.none' : 'empty.title')}</h2><p>${tx(materials.length ? 'search.retry' : 'empty.body')}</p><button class="button" data-action="add">${tx('empty.add')}</button></div></div>` : `<div class="shelf" aria-label="${tx('nav.library')}">${items.map(m => `<button class="shelf-card ${m.id === focused ? 'active' : ''}" data-focus="${esc(m.id)}" aria-label="${tx('library.select', { title: m.title })}" aria-pressed="${m.id === focused}">${cover(m)}<span class="caption">${esc(m.title)}</span></button>`).join('')}</div><article class="focused"><span class="tag">${tx(`type.${chosen.type}`)} / ${tx(`status.${chosen.type === 'book' || chosen.type === 'manga' ? '' : 'generic.'}${chosen.status}`)}</span><h2>${esc(chosen.title)}</h2><p class="creator">${esc(chosen.creator)}</p><div class="tag-list" aria-label="${tx('tags.label')}">${tags.map(tag => `<button class="tag-chip" data-tag="${esc(tag)}">#${esc(tag)}</button>`).join('')}</div><div class="inline-actions"><button class="button" data-story="${esc(chosen.id)}">${tx('library.notes')}${chosen.notes?.length ? ` · ${chosen.notes.length}` : ''}</button><button class="quiet-button" data-edit="${esc(chosen.id)}">${tx('library.details')}</button>${safeURL(chosen.sourceUrl) ? `<button class="quiet-button" data-url="${esc(chosen.sourceUrl)}">${tx('library.source')}</button>` : ''}</div>${chosen.notes?.find(n => n.text) ? `<p class="thought">${esc(chosen.notes.find(n => n.text).text.slice(0, 500))}</p>` : ''}</article>`}`;
   $('#library-search').addEventListener('input', e => { find = e.target.value; noteLimit = 30; const at = e.target.selectionStart; renderLibrary(); $('#library-search').focus(); $('#library-search').setSelectionRange(at, at); });
-  document.querySelectorAll('img.cover').forEach(img => img.addEventListener('error', () => { img.replaceWith(Object.assign(document.createElement('div'), { className: 'cover cover-fallback', textContent: img.alt })); }, { once: true }));
 }
 function renderRecommendations() {
   const recs = current.library.recommendations || [], connected = current.auth.connected && current.auth.planEnabled;
@@ -148,12 +150,21 @@ async function connect() {
   try { await api('connect', { key }); closeModal(); await api('acknowledge'); await refresh(); toast(t('auth.connected')); }
   catch (e) { fail(e); }
 }
-document.addEventListener('change', async e => { if (e.target.dataset.sourceToggle) try { await api('toggleSource', { id: e.target.dataset.sourceToggle, enabled: e.target.checked }); await refresh(); } catch (err) { fail(err); } });
+document.addEventListener('change', async e => {
+  try {
+    if (e.target.id === 'language-select') {
+      const language = e.target.value; e.target.disabled = true;
+      try { await api('preferences', { language }); await I.load(language); await refresh(); }
+      finally { e.target.disabled = false; }
+    } else if (e.target.dataset.sourceToggle) {
+      await api('toggleSource', { id: e.target.dataset.sourceToggle, enabled: e.target.checked }); await refresh();
+    }
+  } catch (err) { I.apply(); fail(err); }
+});
 document.addEventListener('click', async e => {
   const b = e.target.closest('button'); if (!b || b.disabled || !current) return;
   try {
     const d = b.dataset;
-    if (d.language) { await api('preferences', { language: d.language }); await I.load(d.language); await refresh(); return; }
     if (d.filter) { filter = d.filter; renderLibrary(); return; }
     if (d.tag) { closeModal(); section = 'library'; find = d.tag; noteLimit = 30; render(); return; }
     if (d.focus) { focused = d.focus; renderLibrary(); return; }

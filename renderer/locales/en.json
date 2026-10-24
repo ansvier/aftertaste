@@ -229,7 +229,7 @@
   "site.local": "Saved on your device",
   "site.preview": "Public preview",
   "site.releaseNotes": "Release notes ↗",
-  "site.basicLabel": "01 / LIBRARY FIRST",
+  "site.basicLabel": "LIBRARY FIRST",
   "site.basicTitle": "Save it. Add a note. Find it later.",
   "site.basicBody": "Find a book, manga or game in public catalogs. Add videos and articles by link. Keep written notes or voice recordings next to each item.",
   "site.searchTitle": "Search your notes",
@@ -259,5 +259,17 @@
   "site.faqVoiceBody": "No. You can record, attach and play audio locally. Only written notes are used for ChatGPT recommendations.",
   "site.privacy": "Privacy",
   "site.license": "MIT license",
-  "search.more": "Show more notes"
+  "search.more": "Show more notes",
+  "site.demoLabel": "01 / A LOOK INSIDE",
+  "site.demoTitle": "A shelf for what you read. A place for what you think.",
+  "site.demoIntro": "Books, manga, games and videos in one library. Keep a note beside each one, then find it when you need it.",
+  "site.demoWindow": "Aftertaste · Example library",
+  "site.demoAlt": "Aftertaste in English: a library of books and a video, with a written note under the selected book",
+  "site.demoCaption": "English demo with example entries and notes. Your library starts empty.",
+  "site.step1Title": "Add something",
+  "site.step1Body": "Click Add to find a book, manga or game. For a video or article, paste a link. Add a cover if you want.",
+  "site.step2Title": "Leave yourself a note",
+  "site.step2Body": "Open My notes after a chapter, a video or a finished book. Write a few lines or record a voice note.",
+  "site.step3Title": "Come back to it",
+  "site.step3Body": "Search your notes, mark your progress and back up your library. Connect ChatGPT whenever you want personal recommendations."
 }

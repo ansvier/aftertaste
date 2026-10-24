@@ -229,7 +229,7 @@
   "site.local": "Sur votre appareil",
   "site.preview": "Version préliminaire",
   "site.releaseNotes": "Notes de version ↗",
-  "site.basicLabel": "01 / LA BIBLIOTHÈQUE D’ABORD",
+  "site.basicLabel": "LA BIBLIOTHÈQUE D’ABORD",
   "site.basicTitle": "Enregistrez. Notez. Retrouvez.",
   "site.basicBody": "Trouvez livres, mangas et jeux dans les catalogues publics. Ajoutez vidéos et articles par lien. Conservez des notes écrites ou vocales pour chaque élément.",
   "site.searchTitle": "Rechercher dans vos notes",
@@ -259,5 +259,17 @@
   "site.faqVoiceBody": "Non. Vous pouvez enregistrer, joindre et écouter l’audio localement. Seules les notes écrites sont utilisées pour les recommandations ChatGPT.",
   "site.privacy": "Confidentialité",
   "site.license": "Licence MIT",
-  "search.more": "Afficher plus de notes"
+  "search.more": "Afficher plus de notes",
+  "site.demoLabel": "01 / APERÇU",
+  "site.demoTitle": "Une bibliothèque pour vos lectures. Un espace pour vos idées.",
+  "site.demoIntro": "Livres, mangas, jeux et vidéos dans une seule bibliothèque. Ajoutez vos notes à chaque œuvre et retrouvez-les quand vous en avez besoin.",
+  "site.demoWindow": "Aftertaste · Bibliothèque de démonstration",
+  "site.demoAlt": "Aftertaste en anglais : une bibliothèque de livres et une vidéo, avec une note sous le livre sélectionné",
+  "site.demoCaption": "Démonstration en anglais avec des œuvres et des notes d’exemple. Votre bibliothèque sera vide au départ.",
+  "site.step1Title": "Ajoutez une œuvre",
+  "site.step1Body": "Cliquez sur Ajouter pour chercher un livre, un manga ou un jeu. Pour une vidéo ou un article, collez un lien. Ajoutez une couverture si vous le souhaitez.",
+  "site.step2Title": "Prenez une note",
+  "site.step2Body": "Après un chapitre, une vidéo ou un livre, ouvrez Mes notes. Écrivez quelques lignes ou enregistrez une note vocale.",
+  "site.step3Title": "Retrouvez vos idées",
+  "site.step3Body": "Recherchez dans vos notes, suivez vos lectures et sauvegardez votre bibliothèque. Connectez ChatGPT pour obtenir des recommandations personnalisées."
 }

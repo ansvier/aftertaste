@@ -10,7 +10,11 @@ async function setLanguage(value) {
   document.querySelector('meta[name="description"]').content = window.AftertasteI18n.t('site.description');
   languagePreference.set(window.AftertasteI18n.language);
 }
-document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => { setLanguage(button.dataset.language).catch(() => {}); }));
+document.querySelector('[data-language-select]').addEventListener('change', async e => {
+  const language = e.target.value; e.target.disabled = true;
+  try { await setLanguage(language); } catch { window.AftertasteI18n.apply(); }
+  finally { e.target.disabled = false; }
+});
 document.querySelectorAll('a[href^="https://github.com/"]').forEach(link => { link.rel = 'noopener noreferrer'; });
 const preferred = languagePreference.get() || navigator.language.split('-')[0];
 setLanguage(['en', 'ru', 'fr'].includes(preferred) ? preferred : 'en').catch(() => {});

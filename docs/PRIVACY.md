@@ -16,7 +16,7 @@ The library itself is **not encrypted by Aftertaste**. Other software running wi
 | Find available models | OpenAI | OAuth-authenticated account request |
 | Request recommendations | OpenAI Responses API | Enabled imported text, library titles / status, written impressions, optional request, and retrieved catalog candidates |
 | Search / discover catalog items | Open Library, Google Books, MangaDex, Steam | Search terms such as titles, creators, or subjects; no raw personal context |
-| Display a remote cover | The cover provider | Image URL and ordinary network metadata such as IP address |
+| Display a remote cover or video preview | The cover provider; YouTube image hosting for recognized YouTube links | Image URL (including the video ID for YouTube) and ordinary network metadata such as IP address |
 | Open a source link | Your system browser | The selected URL |
 
 The app sends `store: false` for inference. That parameter does not promise zero retention by OpenAI; the connected account's and OpenAI's applicable data policies still govern processing. Audio recordings are not uploaded or transcribed in this release.
@@ -42,3 +42,5 @@ Language preference is stored locally. Topic tags are computed on the device fro
 Full portable backups include referenced media. Local recovery snapshots copy all library files and media before a version change, restoration or deletion. These do not contain the OAuth vault or host registration files. They are stored on the same computer and do not protect against loss of that device. Snapshots are retained until the user removes them; they can consume disk space.
 
 On the first ChatGPT connection, an existing offline library is copied locally into the new empty account library, including media. Its original remains. Existing account libraries are never replaced. Signing out keeps the saved account library accessible.
+
+YouTube previews are direct image requests, with no embedded player, script or video playback. If an image fails to load, a local placeholder remains. Uploaded or manually chosen covers take priority. The public website uses a screenshot of a separate demonstration library with example notes; it contains no user library data.

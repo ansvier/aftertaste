@@ -36,3 +36,16 @@ test('untrusted links cannot become executable URLs', () => {
   for (const url of ['javascript:alert(1)', 'file:///private/file', 'http://example.test', 'https://user:password@example.test']) assert.equal(httpsURL(url), '');
   assert.equal(material({ title: 'Test', cover: 'javascript:alert(1)', status: 'unknown' }).cover, '');
 });
+
+test('video previews use only validated YouTube IDs and keep manual covers separate', () => {
+  const { videoThumbnail } = require('../renderer/library-tools.js');
+  const id = 'N2A4-SwF27A', expected = `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+  for (const sourceUrl of [`https://www.youtube.com/watch?v=${id}&t=20`, `https://youtu.be/${id}?si=example`, `https://m.youtube.com/shorts/${id}`, `https://www.youtube-nocookie.com/embed/${id}`, `https://youtube.com/live/${id}/`]) {
+    assert.equal(videoThumbnail({ type: 'video', sourceUrl }), expected);
+  }
+  for (const sourceUrl of ['https://youtube.com.evil.test/watch?v=N2A4-SwF27A', 'https://evil.test/youtube.com/watch?v=N2A4-SwF27A', 'http://youtube.com/watch?v=N2A4-SwF27A', 'https://user:pass@youtube.com/watch?v=N2A4-SwF27A', 'https://youtube.com/watch?v=../not-an-id', 'https://youtu.be/N2A4-SwF27A/extra', 'https://youtube.com/watch?v=short', 'javascript:alert(1)', 'https://youtube.com:1234/watch?v=N2A4-SwF27A']) {
+    assert.equal(videoThumbnail({ type: 'video', sourceUrl }), '');
+  }
+  assert.equal(videoThumbnail({ type: 'book', sourceUrl: `https://youtu.be/${id}` }), '');
+  assert.equal(videoThumbnail({ type: 'video' }), '');
+});
