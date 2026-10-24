@@ -8,7 +8,7 @@ function walk(dir) { for (const entry of fs.readdirSync(dir, { withFileTypes: tr
 walk(root);
 const problems = [];
 for (const file of files) {
-  const relative = path.relative(root, file);
+  const relative = path.relative(root, file).split(path.sep).join('/');
   if (/\.(?:webp|png|ttf|ico|icns)$/i.test(file)) continue;
   const contents = fs.readFileSync(file, 'utf8');
   if (!/^renderer\/locales\/(ru|tag-rules)\.json$/.test(relative) && !/^(renderer|site)\/index\.html$/.test(relative) && /[\u0400-\u04ff]/u.test(contents)) problems.push(`${relative}: non-English Cyrillic content`);
